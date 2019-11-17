@@ -9,9 +9,16 @@ if [ -x /usr/bin/dircolors ]; then
     alias egrep='egrep --color=auto'
 fi
 
-source <(kubectl completion bash)
+if [ -n "$ZSH_VERSION" ]; then
+    source <(kubectl completion zsh)
+elif [ -n "$BASH_VERSION" ]; then
+    source <(kubectl completion bash)
+else
+   echo "not supported console"
+fi
+
 alias k=kubectl
-complete -F __start_kubectl k
+# complete -F __start_kubectl k
 
 #kubectx and kubens
 export PATH=~/.kubectx:$PATH
